@@ -44,7 +44,7 @@ Usage:
 [3] https://adam.herokuapp.com/past/2010/6/30/replace_cron_with_clockwork/
 """
 import asyncio
-import collections
+from collections.abc import Hashable
 import datetime
 import functools
 import logging
@@ -380,7 +380,7 @@ class Job(object):
         :param tags: A unique list of ``Hashable`` tags.
         :return: The invoked job instance
         """
-        if not all(isinstance(tag, collections.Hashable) for tag in tags):
+        if not all(isinstance(tag, Hashable) for tag in tags):
             raise TypeError('Tags must be hashable')
         self.tags.update(tags)
         return self
