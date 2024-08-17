@@ -44,12 +44,14 @@ Usage:
 [3] https://adam.herokuapp.com/past/2010/6/30/replace_cron_with_clockwork/
 """
 import asyncio
-from collections.abc import Hashable
+import collections
 import datetime
 import functools
 import logging
 import random
 import time
+import warnings
+
 
 logger = logging.getLogger('schedule')
 
@@ -380,7 +382,7 @@ class Job(object):
         :param tags: A unique list of ``Hashable`` tags.
         :return: The invoked job instance
         """
-        if not all(isinstance(tag, Hashable) for tag in tags):
+        if not all(isinstance(tag, collections.Hashable) for tag in tags):
             raise TypeError('Tags must be hashable')
         self.tags.update(tags)
         return self
@@ -527,7 +529,7 @@ class Job(object):
 default_scheduler = Scheduler()
 
 #: Default :class:`Jobs <Job>` list
-jobs = default_scheduler.jobs  # todo: should this be a copy, e.g. jobs()?
+jobs = default_scheduler.jobs
 
 
 def every(interval=1):
